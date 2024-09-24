@@ -5,6 +5,7 @@ function generateRandomNumber() {
   return randomNumber;
 }
 
+/* Some test comment */
 function getPlayerGuess() {
   let playerGuess = Number(prompt("Please, enter a whole number between 1 and 100"));
 
