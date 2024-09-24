@@ -1,4 +1,4 @@
-import { MIN_NUMBER, MAX_NUMBER } from "./constants";
+import { MIN_NUMBER, MAX_NUMBER } from "./constants.js";
 
 export const validatePlayerGuess = (playerGuess) => {
 
