@@ -6,7 +6,7 @@ import {
   GAME_FLOW_MESSAGES,
   SCORE_DETAILS,
   DEFAULT_SCORE_DETAIL,
-} from "./constants";
+} from "./constants.js";
 
 import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
 
