@@ -10,6 +10,8 @@ import {
 
 import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
 
+import { gameState } from "./gameState.js";
+
 const getPlayerGuess = () => {
   let playerGuessNumber = 0;
   let isPlayerGuessValid = false;
@@ -79,19 +81,18 @@ const calculateScore = (numberOfAttempts) => {
     SCORE_DETAILS.find((detail) => numberOfAttempts <= detail.maxAttempts) ||
     DEFAULT_SCORE_DETAIL;
 
-  alert(`${scoreDetail.message} ${scoreDetail.score}.`);
+  alert(`${scoreDetail.message} ${numberOfAttempts} attempts and your score is ${scoreDetail.score}.`);
   return scoreDetail.score;
 };
 
 const game = () => {
-  let shouldRestart = false;
   const correctNumber = generateRandomNumber(
     GAME_SETTINGS.MIN_NUMBER,
     GAME_SETTINGS.MAX_NUMBER
   );
 
   //Welcome Message(only for the first round)
-  !shouldRestart && alert(GAME_FLOW_MESSAGES.WELCOME);
+  !gameState.shouldRestart && alert(GAME_FLOW_MESSAGES.WELCOME);
 
   // Play the round
   const numberOfAttempts = playGameRound(correctNumber);
@@ -100,8 +101,8 @@ const game = () => {
   calculateScore(numberOfAttempts);
 
   //restarting the game
-  shouldRestart = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
-  shouldRestart ? game() : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
+  gameState.shouldRestart = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
+  gameState.shouldRestart ? game() : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
 // play

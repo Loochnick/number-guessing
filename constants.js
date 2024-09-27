@@ -42,12 +42,11 @@ export const GAME_FLOW_MESSAGES = {
 
 // Score Messages
 export const SCORE_MESSAGES = {
-  INCREDIBLE: "Incredible! You got it on the first try! Your score is",
-  GREAT_JOB: "Great job! You got it within a few attempts. Your score is",
-  GOOD_JOB: "Good! It took a bit longer, but you still made it. Your score is",
-  TOOK_SEVERAL_ATTEMPTS:
-    "You got it, but it took several attempts. Your score is",
-  BETTER_LUCK_NEXT_TIME: "Better luck next time! Your score is",
+  INCREDIBLE: "Incredible! You achieved an outstanding result! you got it with",
+  GREAT_JOB: "Great job! Your result reflects your impressive skills! you got it with",
+  GOOD_JOB: "Good work! You've got a solid result! you got it with",
+  TOOK_SEVERAL_ATTEMPTS: "Well done! Your result shows your perseverance! you got it with",
+  BETTER_LUCK_NEXT_TIME: "Better luck next time! you got it with",
 };
 
 // Score Ranges
