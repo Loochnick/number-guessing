@@ -4,7 +4,8 @@ import {
   ERROR_MESSAGES,
   FEEDBACK_MESSAGES,
   GAME_FLOW_MESSAGES,
-  SCORE_MESSAGES,
+  SCORE_DETAILS,
+  DEFAULT_SCORE_DETAIL,
 } from "./constants";
 
 import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
@@ -73,45 +74,21 @@ const playGameRound = (correctNumber) => {
 };
 
 const calculateScore = (numberOfAttempts) => {
-  let score;
-  let message;
+  // Find the score detail
+  const scoreDetail =
+    SCORE_DETAILS.find((detail) => numberOfAttempts <= detail.maxAttempts) ||
+    DEFAULT_SCORE_DETAIL;
 
-  switch (numberOfAttempts) {
-    case 1:
-      score = 60;
-      message = `${SCORE_MESSAGES.INCREDIBLE} ${score}.`;
-      break;
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      score = 40;
-      message = `${SCORE_MESSAGES.GREAT_JOB} ${score}.`;
-      break;
-    case 6:
-    case 7:
-    case 8:
-      score = 20;
-      message = `${SCORE_MESSAGES.GOOD_JOB} ${score}.`;
-      break;
-    case 9:
-    case 10:
-      score = 10;
-      message = `${SCORE_MESSAGES.TOOK_SEVERAL_ATTEMPTS} ${score}.`;
-      break;
-    default:
-      score = 0;
-      message = `${SCORE_MESSAGES.BETTER_LUCK_NEXT_TIME} ${score}.`;
-      break;
-  }
-
-  alert(message);
-  return score;
+  alert(`${scoreDetail.message} ${scoreDetail.score}.`);
+  return scoreDetail.score;
 };
 
 const game = () => {
   let shouldRestart = false;
-  const correctNumber = generateRandomNumber(GAME_SETTINGS.MIN_NUMBER, GAME_SETTINGS.MAX_NUMBER);
+  const correctNumber = generateRandomNumber(
+    GAME_SETTINGS.MIN_NUMBER,
+    GAME_SETTINGS.MAX_NUMBER
+  );
 
   //Welcome Message(only for the first round)
   !shouldRestart && alert(GAME_FLOW_MESSAGES.WELCOME);
