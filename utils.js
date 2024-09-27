@@ -1,4 +1,4 @@
-import { MIN_NUMBER, MAX_NUMBER } from "./constants.js";
+import { GAME_SETTINGS } from "./constants.js";
 
 export const validatePlayerGuess = (playerGuess) => {
 
@@ -8,8 +8,8 @@ export const validatePlayerGuess = (playerGuess) => {
   return (
     !isNaN(playerGuessNumber) &&
     Number.isInteger(playerGuessNumber) &&
-    playerGuessNumber >= MIN_NUMBER &&
-    playerGuessNumber <= MAX_NUMBER
+    playerGuessNumber >= GAME_SETTINGS.MIN_NUMBER &&
+    playerGuessNumber <= GAME_SETTINGS.MAX_NUMBER
   );
 };
 
