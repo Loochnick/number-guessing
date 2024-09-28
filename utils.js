@@ -1,16 +1,24 @@
-import { GAME_SETTINGS } from "./constants.js";
+import { GAME_SETTINGS, ERROR_MESSAGES } from "./constants.js";
 
 export const validatePlayerGuess = (playerGuess) => {
 
-  // Convert the input to a number
   const playerGuessNumber = Number(playerGuess);
 
-  return (
-    !isNaN(playerGuessNumber) &&
-    Number.isInteger(playerGuessNumber) &&
-    playerGuessNumber >= GAME_SETTINGS.MIN_NUMBER &&
-    playerGuessNumber <= GAME_SETTINGS.MAX_NUMBER
-  );
+  if (isNaN(playerGuessNumber)) {
+    return ERROR_MESSAGES.NOT_A_NUMBER;
+  }
+  if (!Number.isInteger(playerGuessNumber)) {
+    return ERROR_MESSAGES.NOT_AN_INTEGER;
+  }
+  if (playerGuessNumber < GAME_SETTINGS.MIN_NUMBER) {
+    return ERROR_MESSAGES.OUT_OF_RANGE_LOW;
+  }
+  if (playerGuessNumber > GAME_SETTINGS.MAX_NUMBER) {
+    return ERROR_MESSAGES.OUT_OF_RANGE_HIGH; 
+  }
+
+  // Return null if valid
+  return null; 
 };
 
 export const generateRandomNumber = (min, max) =>

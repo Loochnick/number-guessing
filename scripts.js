@@ -28,10 +28,12 @@ const getPlayerGuess = () => {
     }
 
     //validating player guess
-    isPlayerGuessValid = validatePlayerGuess(playerGuessNumber);
+    const errorMessage = validatePlayerGuess(playerGuessNumber);
 
     //alert the player if the guess is not valid
-    if (!isPlayerGuessValid) alert(ERROR_MESSAGES.INVALID_NUMBER);
+    errorMessage
+      ? alert(errorMessage)
+      : (isPlayerGuessValid = true);
   } while (!isPlayerGuessValid);
 
   return Number(playerGuessNumber);
@@ -65,7 +67,7 @@ const playGameRound = (correctNumber) => {
     const playerGuess = getPlayerGuess();
 
     // Check if the player canceled the game
-    if(playerGuess === null) return;
+    if (playerGuess === null) return;
 
     resultMessage = checkGuess(playerGuess, correctNumber);
     alert(resultMessage);
