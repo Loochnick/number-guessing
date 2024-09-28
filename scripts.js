@@ -22,7 +22,7 @@ const getPlayerGuess = () => {
     playerGuessNumber = prompt(PROMPTS_MESSAGES.GUESS_PROMPT);
 
     // Check if the player canceled the game
-    if (!playerGuessNumber) {
+    if (playerGuessNumber === null) {
       alert(GAME_FLOW_MESSAGES.GAME_CANCELLED);
       return null;
     }
@@ -65,7 +65,7 @@ const playGameRound = (correctNumber) => {
     const playerGuess = getPlayerGuess();
 
     // Check if the player canceled the game
-    if(!playerGuess) return;
+    if(playerGuess === null) return;
 
     resultMessage = checkGuess(playerGuess, correctNumber);
     alert(resultMessage);
