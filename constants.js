@@ -38,6 +38,7 @@ export const GAME_FLOW_MESSAGES = {
     Can you find the correct number? Good luck, and have fun!
   `,
   THANKS_FOR_PLAYING: "Thanks for playing!",
+  GAME_CANCELLED: "The game has been cancelled",
 };
 
 // Score Messages

@@ -12,6 +12,8 @@ import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
 
 import { gameState } from "./gameState.js";
 
+//cancelling and error handling
+
 const getPlayerGuess = () => {
   let playerGuessNumber = 0;
   let isPlayerGuessValid = false;
@@ -19,13 +21,17 @@ const getPlayerGuess = () => {
   do {
     playerGuessNumber = prompt(PROMPTS_MESSAGES.GUESS_PROMPT);
 
+    // Check if the player canceled the game
+    if (!playerGuessNumber) {
+      alert(GAME_FLOW_MESSAGES.GAME_CANCELLED);
+      return null;
+    }
+
     //validating player guess
     isPlayerGuessValid = validatePlayerGuess(playerGuessNumber);
 
     //alert the player if the guess is not valid
-    if (!isPlayerGuessValid) {
-      alert(ERROR_MESSAGES.INVALID_NUMBER);
-    }
+    if (!isPlayerGuessValid) alert(ERROR_MESSAGES.INVALID_NUMBER);
   } while (!isPlayerGuessValid);
 
   return Number(playerGuessNumber);
@@ -57,6 +63,10 @@ const playGameRound = (correctNumber) => {
     resultMessage !== FEEDBACK_MESSAGES.CORRECT_GUESS
   ) {
     const playerGuess = getPlayerGuess();
+
+    // Check if the player canceled the game
+    if(!playerGuess) return;
+
     resultMessage = checkGuess(playerGuess, correctNumber);
     alert(resultMessage);
 
@@ -81,7 +91,9 @@ const calculateScore = (numberOfAttempts) => {
     SCORE_DETAILS.find((detail) => numberOfAttempts <= detail.maxAttempts) ||
     DEFAULT_SCORE_DETAIL;
 
-  alert(`${scoreDetail.message} ${numberOfAttempts} attempts and your score is ${scoreDetail.score}.`);
+  alert(
+    `${scoreDetail.message} ${numberOfAttempts} attempts and your score is ${scoreDetail.score}.`
+  );
   return scoreDetail.score;
 };
 
@@ -98,11 +110,13 @@ const game = () => {
   const numberOfAttempts = playGameRound(correctNumber);
 
   //Calculate the score after the round
-  calculateScore(numberOfAttempts);
+  numberOfAttempts && calculateScore(numberOfAttempts);
 
   //restarting the game
   gameState.shouldRestart = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
-  gameState.shouldRestart ? game() : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
+  gameState.shouldRestart
+    ? game()
+    : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
 // play
