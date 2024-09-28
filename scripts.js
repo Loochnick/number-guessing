@@ -8,7 +8,7 @@ import {
   DEFAULT_SCORE_DETAIL,
 } from "./constants.js";
 
-import { generateRandomNumber, validatePlayerGuess, delay } from "./utils.js";
+import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
 
 import { gameState } from "./gameState.js";
 
@@ -62,7 +62,7 @@ const playGameRound = (correctNumber) => {
     const playerGuess = getPlayerGuess();
 
     // Check if the player canceled the game
-    if (playerGuess === null) return;
+    if (playerGuess === null) return null;
 
     resultMessage = checkGuess(playerGuess, correctNumber);
     alert(resultMessage);
@@ -87,20 +87,22 @@ const playGameRound = (correctNumber) => {
 const calculateScore = (numberOfAttempts) => {
   let scoreDetail;
 
-  if(gameState.hasWon) {
-    scoreDetail = SCORE_DETAILS.find((detail) => numberOfAttempts <= detail.maxAttempts);
+  if (gameState.hasWon) {
+    scoreDetail = SCORE_DETAILS.find(
+      (detail) => numberOfAttempts <= detail.maxAttempts
+    );
     alert(
       `${scoreDetail.message} ${numberOfAttempts} attempts and your score is ${scoreDetail.score}.`
     );
   } else {
     scoreDetail = DEFAULT_SCORE_DETAIL;
-    alert(`${scoreDetail.message} Your score is ${scoreDetail.score}.`)
+    alert(`${scoreDetail.message} Your score is ${scoreDetail.score}.`);
   }
 
   return scoreDetail.score;
 };
 
-const game = () => {
+function game() {
   const correctNumber = generateRandomNumber(
     GAME_SETTINGS.MIN_NUMBER,
     GAME_SETTINGS.MAX_NUMBER
@@ -117,10 +119,10 @@ const game = () => {
 
   //restarting the game
   gameState.shouldRestart = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
-  gameState.shouldRestart
-    ? game()
-    : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
+
+  if (gameState.shouldRestart) game() 
+  else alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
 // play
-delay(500).then(() => game());
+game();
