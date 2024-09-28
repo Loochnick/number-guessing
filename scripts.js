@@ -8,7 +8,7 @@ import {
   DEFAULT_SCORE_DETAIL,
 } from "./constants.js";
 
-import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
+import { generateRandomNumber, validatePlayerGuess, delay } from "./utils.js";
 
 import { gameState } from "./gameState.js";
 
@@ -31,9 +31,7 @@ const getPlayerGuess = () => {
     const errorMessage = validatePlayerGuess(playerGuessNumber);
 
     //alert the player if the guess is not valid
-    errorMessage
-      ? alert(errorMessage)
-      : (isPlayerGuessValid = true);
+    errorMessage ? alert(errorMessage) : (isPlayerGuessValid = true);
   } while (!isPlayerGuessValid);
 
   return Number(playerGuessNumber);
@@ -43,7 +41,7 @@ const checkGuess = (playerGuess, correctNumber) => {
   const guessDifference = Math.abs(playerGuess - correctNumber);
 
   if (playerGuess === correctNumber) {
-    return FEEDBACK_MESSAGES.CORRECT_GUESS;
+    return FEEDBACK_MESSAGES.CORRECT_GUESS + correctNumber;
   } else if (playerGuess < correctNumber) {
     return guessDifference <= GAME_SETTINGS.CLOSE_RANGE
       ? FEEDBACK_MESSAGES.LOW_GUESS_CLOSE
@@ -60,10 +58,7 @@ const playGameRound = (correctNumber) => {
   let resultMessage = "";
 
   // Loop until max attempts or correct guess
-  while (
-    numberOfAttempts < GAME_SETTINGS.MAX_ATTEMPTS &&
-    resultMessage !== FEEDBACK_MESSAGES.CORRECT_GUESS
-  ) {
+  while (numberOfAttempts < GAME_SETTINGS.MAX_ATTEMPTS && !gameState.hasWon) {
     const playerGuess = getPlayerGuess();
 
     // Check if the player canceled the game
@@ -74,28 +69,34 @@ const playGameRound = (correctNumber) => {
 
     // Increment attempts
     numberOfAttempts++;
+
+    //check if the player guessed it right
+    if (resultMessage.includes(FEEDBACK_MESSAGES.CORRECT_GUESS)) {
+      gameState.hasWon = true;
+    }
   }
 
   // Check if the player ran out of attempts
-  if (
-    numberOfAttempts === GAME_SETTINGS.MAX_ATTEMPTS &&
-    resultMessage !== FEEDBACK_MESSAGES.CORRECT_GUESS
-  ) {
-    alert(ERROR_MESSAGES.MAX_ATTEMPTS_REACHED);
+  if (numberOfAttempts === GAME_SETTINGS.MAX_ATTEMPTS && !gameState.hasWon) {
+    alert(ERROR_MESSAGES.MAX_ATTEMPTS_REACHED + correctNumber);
   }
 
   return numberOfAttempts;
 };
 
 const calculateScore = (numberOfAttempts) => {
-  // Find the score detail
-  const scoreDetail =
-    SCORE_DETAILS.find((detail) => numberOfAttempts <= detail.maxAttempts) ||
-    DEFAULT_SCORE_DETAIL;
+  let scoreDetail;
 
-  alert(
-    `${scoreDetail.message} ${numberOfAttempts} attempts and your score is ${scoreDetail.score}.`
-  );
+  if(gameState.hasWon) {
+    scoreDetail = SCORE_DETAILS.find((detail) => numberOfAttempts <= detail.maxAttempts);
+    alert(
+      `${scoreDetail.message} ${numberOfAttempts} attempts and your score is ${scoreDetail.score}.`
+    );
+  } else {
+    scoreDetail = DEFAULT_SCORE_DETAIL;
+    alert(`${scoreDetail.message} Your score is ${scoreDetail.score}.`)
+  }
+
   return scoreDetail.score;
 };
 
@@ -122,4 +123,4 @@ const game = () => {
 };
 
 // play
-game();
+delay(500).then(() => game());

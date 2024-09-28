@@ -2,8 +2,12 @@ import { GAME_SETTINGS, ERROR_MESSAGES } from "./constants.js";
 
 export const validatePlayerGuess = (playerGuess) => {
 
-  const playerGuessNumber = Number(playerGuess);
+  if(playerGuess === "") {
+    return ERROR_MESSAGES.NOT_EMPTY_SPACE;
+  }
 
+  const playerGuessNumber = Number(playerGuess);
+  
   if (isNaN(playerGuessNumber)) {
     return ERROR_MESSAGES.NOT_A_NUMBER;
   }
@@ -23,3 +27,5 @@ export const validatePlayerGuess = (playerGuess) => {
 
 export const generateRandomNumber = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
+
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

@@ -19,7 +19,8 @@ export const ERROR_MESSAGES = {
   NOT_AN_INTEGER: "Please enter an integer value.",
   OUT_OF_RANGE_LOW: `Please enter a number greater than or equal to ${GAME_SETTINGS.MIN_NUMBER}.`,
   OUT_OF_RANGE_HIGH: `Please enter a number less than or equal to ${GAME_SETTINGS.MAX_NUMBER}.`,
-  MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time!`,
+  NOT_EMPTY_SPACE: "empty space is not accepted",
+  MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time! The correct number was: `,
 };
 
 // Feedback Messages
@@ -28,7 +29,7 @@ export const FEEDBACK_MESSAGES = {
   LOW_GUESS_CLOSE: "You're close! Your guess is low.",
   HIGH_GUESS: "Your guess is too high.",
   HIGH_GUESS_CLOSE: "You're close! Your guess is high.",
-  CORRECT_GUESS: "Congratulations! You guessed it right!",
+  CORRECT_GUESS: "Congratulations! You guessed it right! The correct number was: ",
 };
 
 // Game Flow Messages
@@ -53,7 +54,7 @@ export const SCORE_MESSAGES = {
   GOOD_JOB: "Good work! You've got a solid result! you got it with",
   TOOK_SEVERAL_ATTEMPTS:
     "Well done! Your result shows your perseverance! you got it with",
-  BETTER_LUCK_NEXT_TIME: "Better luck next time! you got it with",
+  BETTER_LUCK_NEXT_TIME: "Better luck next time! ",
 };
 
 // Score Ranges
