@@ -102,7 +102,7 @@ const calculateScore = (numberOfAttempts) => {
   return scoreDetail.score;
 };
 
-function game() {
+const game = () => {
   const correctNumber = generateRandomNumber(
     GAME_SETTINGS.MIN_NUMBER,
     GAME_SETTINGS.MAX_NUMBER
