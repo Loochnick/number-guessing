@@ -12,8 +12,6 @@ import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
 
 import { gameState } from "./gameState.js";
 
-//cancelling and error handling
-
 const getPlayerGuess = () => {
   let playerGuessNumber = 0;
   let isPlayerGuessValid = false;
@@ -120,7 +118,10 @@ const game = () => {
   //restarting the game
   gameState.shouldRestart = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
 
-  if (gameState.shouldRestart) game() 
+  if (gameState.shouldRestart) {
+    gameState.hasWon = false;
+    game();
+  }  
   else alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
