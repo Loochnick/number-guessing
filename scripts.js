@@ -8,7 +8,7 @@ import {
   DEFAULT_SCORE_DETAIL,
 } from "./constants.js";
 
-import { generateRandomNumber, validatePlayerGuess } from "./utils.js";
+import { generateRandomNumber, validatePlayerGuess, delay } from "./utils.js";
 
 import { gameState } from "./gameState.js";
 
@@ -121,9 +121,18 @@ const game = () => {
   if (gameState.shouldRestart) {
     gameState.hasWon = false;
     game();
-  }  
-  else alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
+  } else alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
-// play
-game();
+const startGameWithDelay = () => {
+  delay(GAME_SETTINGS.INITIAL_DELAY)
+    .then(() => game())
+    .catch((error) => {
+      console.error(error);
+      alert(ERROR_MESSAGES.GAME_INITIALIZATION);
+    });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  startGameWithDelay();
+});

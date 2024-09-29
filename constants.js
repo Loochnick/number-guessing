@@ -4,6 +4,7 @@ export const GAME_SETTINGS = {
   MAX_NUMBER: 100,
   CLOSE_RANGE: 10,
   MAX_ATTEMPTS: 10,
+  INITIAL_DELAY: 500,
 };
 
 // Prompt Messages
@@ -21,6 +22,7 @@ export const ERROR_MESSAGES = {
   OUT_OF_RANGE_HIGH: `Please enter a number less than or equal to ${GAME_SETTINGS.MAX_NUMBER}.`,
   NOT_EMPTY_SPACE: "empty space is not accepted",
   MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time! The correct number was: `,
+  GAME_INITIALIZATION: "An error occurred while starting the game. Please refresh the page and try again.",
 };
 
 // Feedback Messages
