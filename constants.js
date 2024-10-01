@@ -1,10 +1,13 @@
+//Local Storage
+export const LOCAL_STORAGE_KEY = 'state';
+
 // Game Settings
 export const GAME_SETTINGS = {
   MIN_NUMBER: 1,
   MAX_NUMBER: 100,
   CLOSE_RANGE: 10,
   MAX_ATTEMPTS: 10,
-  INITIAL_DELAY: 500,
+  INITIAL_DELAY: 1000,
 };
 
 // Prompt Messages
@@ -21,8 +24,8 @@ export const ERROR_MESSAGES = {
   OUT_OF_RANGE_LOW: `Please enter a number greater than or equal to ${GAME_SETTINGS.MIN_NUMBER}.`,
   OUT_OF_RANGE_HIGH: `Please enter a number less than or equal to ${GAME_SETTINGS.MAX_NUMBER}.`,
   NOT_EMPTY_SPACE: "empty space is not accepted",
-  MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time! The correct number was: `,
-  GAME_INITIALIZATION: "An error occurred while starting the game. Please refresh the page and try again.",
+  GAME_INITIALIZATION:
+    "Something went wrong!. Please refresh the page and try again.",
 };
 
 // Feedback Messages
@@ -31,7 +34,8 @@ export const FEEDBACK_MESSAGES = {
   LOW_GUESS_CLOSE: "You're close! Your guess is low.",
   HIGH_GUESS: "Your guess is too high.",
   HIGH_GUESS_CLOSE: "You're close! Your guess is high.",
-  CORRECT_GUESS: "Congratulations! You guessed it right! The correct number was: ",
+  CORRECT_GUESS: "Congratulations! You guessed it right!",
+  MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time! The correct number was: `,
 };
 
 // Game Flow Messages
@@ -50,25 +54,37 @@ export const GAME_FLOW_MESSAGES = {
 
 // Score Messages
 export const SCORE_MESSAGES = {
-  INCREDIBLE: "Incredible! You achieved an outstanding result! you got it with",
+  INCREDIBLE: "Incredible! You achieved an outstanding result! your score for this round is ",
   GREAT_JOB:
-    "Great job! Your result reflects your impressive skills! you got it with",
-  GOOD_JOB: "Good work! You've got a solid result! you got it with",
+    "Great job! Your result reflects your impressive skills! your score for this round is ",
+  GOOD_JOB: "Good work! You've got a solid result! your score for this round is ",
   TOOK_SEVERAL_ATTEMPTS:
-    "Well done! Your result shows your perseverance! you got it with",
-  BETTER_LUCK_NEXT_TIME: "Better luck next time! ",
+    "Well done! Your result shows your perseverance! your score for this round is ",
+  BETTER_LUCK_NEXT_TIME: "Don't worry, you'll get it next time! your score for this round is ",
+  GAME_CANCELLED: "Your score for this round is ",
+  TOTAL_SCORE: "Your total score is ",
 };
 
 // Score Ranges
 export const SCORE_DETAILS = [
-  { maxAttempts: 1, score: 60, message: SCORE_MESSAGES.INCREDIBLE },
-  { maxAttempts: 5, score: 40, message: SCORE_MESSAGES.GREAT_JOB },
-  { maxAttempts: 8, score: 20, message: SCORE_MESSAGES.GOOD_JOB },
-  { maxAttempts: 10, score: 10, message: SCORE_MESSAGES.TOOK_SEVERAL_ATTEMPTS },
+  { MAX_ATTEMPTS: 1, SCORE: 60, MESSAGE: SCORE_MESSAGES.INCREDIBLE },
+  { MAX_ATTEMPTS: 5, SCORE: 40, MESSAGE: SCORE_MESSAGES.GREAT_JOB },
+  { MAX_ATTEMPTS: 8, SCORE: 20, MESSAGE: SCORE_MESSAGES.GOOD_JOB },
+  {
+    MAX_ATTEMPTS: 10,
+    SCORE: 10,
+    MESSAGE: SCORE_MESSAGES.TOOK_SEVERAL_ATTEMPTS,
+  },
 ];
 
 // Default score and message for attempts greater than 10
-export const DEFAULT_SCORE_DETAIL = {
-  score: 0,
-  message: SCORE_MESSAGES.BETTER_LUCK_NEXT_TIME,
+export const GAME_OVER_SCORE_DETAIL = {
+  SCORE: 0,
+  MESSAGE: SCORE_MESSAGES.BETTER_LUCK_NEXT_TIME,
+};
+
+// Score for canceled game
+export const CANCELED_GAME_SCORE_DETAIL = {
+  SCORE: 0,
+  MESSAGE: SCORE_MESSAGES.GAME_CANCELLED,
 };
