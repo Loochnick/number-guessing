@@ -185,8 +185,11 @@ const game = (state) => {
 const startGameWithDelay = (state) => {
   delay(GAME_SETTINGS.INITIAL_DELAY)
     .then(() => {
-      //Welcome message
-      alert(GAME_FLOW_MESSAGES.WELCOME);
+      //Welcome message(only for the first time)
+      (state.currentRound.roundNumber === 1) && alert(GAME_FLOW_MESSAGES.WELCOME);
+
+      // Notify the player which round they are currently playing
+      alert(`Round ${state.currentRound.roundNumber}`);
 
       //play
       game(state);
