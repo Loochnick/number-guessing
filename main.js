@@ -182,22 +182,22 @@ const game = (state) => {
   shouldPlayAgain ? game(state) : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
-const startGameWithDelay = (state) => {
-  delay(GAME_SETTINGS.INITIAL_DELAY)
-    .then(() => {
-      //Welcome message(only for the first time)
-      (state.currentRound.roundNumber === 1) && alert(GAME_FLOW_MESSAGES.WELCOME);
+const startGameWithDelay = async (state) => {
+  try {
+    await delay(GAME_SETTINGS.INITIAL_DELAY);
 
-      // Notify the player which round they are currently playing
-      alert(`Round ${state.currentRound.roundNumber}`);
+    //Welcome message(only for the first time)
+    state.currentRound.roundNumber === 1 && alert(GAME_FLOW_MESSAGES.WELCOME);
 
-      //play
-      game(state);
-    })
-    .catch((error) => {
-      console.error(error);
-      alert(error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION);
-    });
+    // Notify the player which round they are currently playing
+    alert(`Round ${state.currentRound.roundNumber}`);
+
+    //play
+    game(state);
+  } catch (error) {
+    console.error(error);
+    alert(error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION);
+  }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
