@@ -4,7 +4,7 @@ import {
   LOCAL_STORAGE_KEY,
 } from "./constants.js";
 
-import { DEFAULT_STATE } from "./gameState.js";
+import { DEFAULT_STATE } from "./store/stateManager.js";
 
 //Local Storage helper functions
 export const saveStateToLocalStorage = (state) => {

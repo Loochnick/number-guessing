@@ -19,7 +19,7 @@ import {
   calculateGameStats,
 } from "./utils.js";
 
-import { DEFAULT_STATE } from "./gameState.js";
+import { dispatch } from "./store/stateManager.js";
 
 const getPlayerGuess = () => {
   let playerGuessNumber = 0;
@@ -72,7 +72,7 @@ const playGameRound = (state) => {
 
     // Check if the player canceled the game
     if (playerGuess === null) {
-      state.currentRound.isCancelled = true;
+      state = dispatch(state, { type: "CANCELL_ROUND" });
       break;
     }
 
@@ -80,11 +80,14 @@ const playGameRound = (state) => {
 
     //check if the player guessed it right
     if (resultMessage.includes(FEEDBACK_MESSAGES.CORRECT_GUESS)) {
-      state.currentRound.hasWon = true;
+      state = dispatch(state, { type: "GAME_WON" });
     }
 
     // Increment attempts
-    state.currentRound.attempts++;
+    state = dispatch(state, {
+      type: "SET_ATTEMPTS",
+      payload: state.currentRound.attempts + 1,
+    });
 
     // alert the player of the result of the guess
     state.currentRound.hasWon
@@ -100,14 +103,19 @@ const playGameRound = (state) => {
     !state.currentRound.hasWon
   ) {
     alert(
-      FEEDBACK_MESSAGES.MAX_ATTEMPTS_REACHED + state.currentRound.correctNumber
+      FEEDBACK_MESSAGES.MAX_ATTEMPTS_REACHED +
+        state.currentRound.correctNumber
     );
   }
+
+  return state;
 };
 
 const getCurrentScoreDetail = (state) => {
+  const { isCancelled, hasWon, attempts } = state.currentRound;
+
   // Handle cancelled game
-  if (state.currentRound.isCancelled) {
+  if (isCancelled) {
     return {
       message:
         CANCELED_GAME_SCORE_DETAIL.MESSAGE + CANCELED_GAME_SCORE_DETAIL.SCORE,
@@ -116,9 +124,9 @@ const getCurrentScoreDetail = (state) => {
   }
 
   // Handle game won scenario
-  if (state.currentRound.hasWon) {
+  if (hasWon) {
     const scoreDetail = SCORE_DETAILS.find(
-      (detail) => state.currentRound.attempts <= detail.MAX_ATTEMPTS
+      (detail) => attempts <= detail.MAX_ATTEMPTS
     );
 
     return {
@@ -135,33 +143,31 @@ const getCurrentScoreDetail = (state) => {
 };
 
 const updateGameStateAfterRound = (state, score) => {
-  // Update the score
-  state.currentRound.score = score;
+  const updatedState = dispatch(state, {
+    type: "ADD_ROUND",
+    payload: { ...state.currentRound, score: score },
+  });
 
-  // Push the current round to the rounds array
-  state.rounds.push({ ...state.currentRound });
-
-  // Reset the current round to defaults for the next round
-  state.currentRound = {
-    ...DEFAULT_STATE.currentRound,
-    roundNumber: state.rounds.length + 1,
-  };
+  return updatedState;
 };
 
 const game = (state) => {
-  state.currentRound.correctNumber = generateRandomNumber(
-    GAME_SETTINGS.MIN_NUMBER,
-    GAME_SETTINGS.MAX_NUMBER
-  );
+  state = dispatch(state, {
+    type: "SET_CORRECT_NUMBER",
+    payload: generateRandomNumber(
+      GAME_SETTINGS.MIN_NUMBER,
+      GAME_SETTINGS.MAX_NUMBER
+    ),
+  });
 
   // Play the round
-  playGameRound(state);
+  state = playGameRound(state);
 
   //Calculate the current score after the round
   const scoreDetail = getCurrentScoreDetail(state);
 
   // update the state
-  updateGameStateAfterRound(state, scoreDetail.score);
+  state = updateGameStateAfterRound(state, scoreDetail.score);
 
   // Calculate the total score and other game statistics after the round
   const { totalScore, roundsWon, roundsLost, roundsCancelled } =
@@ -183,14 +189,16 @@ const game = (state) => {
 };
 
 const startGameWithDelay = async (state) => {
+  const { roundNumber } = state.currentRound;
+
   try {
     await delay(GAME_SETTINGS.INITIAL_DELAY);
 
     //Welcome message(only for the first time)
-    state.currentRound.roundNumber === 1 && alert(GAME_FLOW_MESSAGES.WELCOME);
+    roundNumber === 1 && alert(GAME_FLOW_MESSAGES.WELCOME);
 
     // Notify the player which round they are currently playing
-    alert(`Round ${state.currentRound.roundNumber}`);
+    alert(`Round ${roundNumber}`);
 
     //play
     game(state);
@@ -202,7 +210,7 @@ const startGameWithDelay = async (state) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   //Get the initilized State
-  const state = loadStateFromLocalStorage();
+  const initialState = loadStateFromLocalStorage();
 
-  startGameWithDelay(state);
+  startGameWithDelay(initialState);
 });
