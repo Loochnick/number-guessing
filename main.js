@@ -106,8 +106,10 @@ const playGameRound = (state) => {
 };
 
 const getCurrentScoreDetail = (state) => {
+  const { isCancelled, hasWon } = state.currentRound;
+  
   // Handle cancelled game
-  if (state.currentRound.isCancelled) {
+  if (isCancelled) {
     return {
       message:
         CANCELED_GAME_SCORE_DETAIL.MESSAGE + CANCELED_GAME_SCORE_DETAIL.SCORE,
@@ -116,7 +118,7 @@ const getCurrentScoreDetail = (state) => {
   }
 
   // Handle game won scenario
-  if (state.currentRound.hasWon) {
+  if (hasWon) {
     const scoreDetail = SCORE_DETAILS.find(
       (detail) => state.currentRound.attempts <= detail.MAX_ATTEMPTS
     );
