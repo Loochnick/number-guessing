@@ -30,7 +30,7 @@ const getPlayerGuess = () => {
 
     // Check if the player canceled the game
     if (playerGuessNumber === null) {
-      alert(GAME_FLOW_MESSAGES.GAME_CANCELLED);
+      console.log(GAME_FLOW_MESSAGES.GAME_CANCELLED);
       return null;
     }
 
@@ -38,7 +38,7 @@ const getPlayerGuess = () => {
     const errorMessage = validatePlayerGuess(playerGuessNumber);
 
     //alert the player if the guess is not valid
-    errorMessage ? alert(errorMessage) : (isPlayerGuessValid = true);
+    errorMessage ? console.log(errorMessage) : (isPlayerGuessValid = true);
   } while (!isPlayerGuessValid);
 
   return Number(playerGuessNumber);
@@ -88,10 +88,10 @@ const playGameRound = (state) => {
 
     // alert the player of the result of the guess
     state.currentRound.hasWon
-      ? alert(
-          `${resultMessage} You got the correct number in ${state.currentRound.attempts} attempts! the correct number was: ${state.currentRound.correctNumber}`
+      ? console.log(
+          `${resultMessage} You got the correct number in ${state.currentRound.attempts} attempts! the correct number was: ${state.currentRound.correctNumber} \n`
         )
-      : alert(resultMessage);
+      : console.log(resultMessage);
   }
 
   // Check if the player ran out of attempts
@@ -99,7 +99,7 @@ const playGameRound = (state) => {
     state.currentRound.attempts === GAME_SETTINGS.MAX_ATTEMPTS &&
     !state.currentRound.hasWon
   ) {
-    alert(
+    console.log(
       FEEDBACK_MESSAGES.MAX_ATTEMPTS_REACHED + state.currentRound.correctNumber
     );
   }
@@ -151,6 +151,10 @@ const updateGameStateAfterRound = (state, score) => {
 };
 
 const game = (state) => {
+
+  // Notify the player which round they are currently playing
+  console.log(`Round ${state.currentRound.roundNumber}`);
+  
   state.currentRound.correctNumber = generateRandomNumber(
     GAME_SETTINGS.MIN_NUMBER,
     GAME_SETTINGS.MAX_NUMBER
@@ -170,7 +174,7 @@ const game = (state) => {
     calculateGameStats(state);
 
   // Alert the player of the score feedback, total score, and rounds won, lost, and cancelled
-  alert(
+  console.log(
     `${scoreDetail.message}. ${SCORE_MESSAGES.TOTAL_SCORE + totalScore}. ` +
       `Rounds won: ${roundsWon}, Rounds lost: ${roundsLost}, Rounds cancelled: ${roundsCancelled}.`
   );
@@ -181,7 +185,7 @@ const game = (state) => {
   //Asking the player if they want to play again
   const shouldPlayAgain = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
 
-  shouldPlayAgain ? game(state) : alert(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
+  shouldPlayAgain ? game(state) : console.log(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
 const startGameWithDelay = async (state) => {
@@ -189,16 +193,12 @@ const startGameWithDelay = async (state) => {
     await delay(GAME_SETTINGS.INITIAL_DELAY);
 
     //Welcome message(only for the first time)
-    state.currentRound.roundNumber === 1 && alert(GAME_FLOW_MESSAGES.WELCOME);
-
-    // Notify the player which round they are currently playing
-    alert(`Round ${state.currentRound.roundNumber}`);
+    state.currentRound.roundNumber === 1 && console.log(GAME_FLOW_MESSAGES.WELCOME);
 
     //play
     game(state);
   } catch (error) {
-    console.error(error);
-    alert(error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION);
+    console.log(error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION);
   }
 };
 

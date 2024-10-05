@@ -19,23 +19,23 @@ export const PROMPTS_MESSAGES = {
 // Error Messages
 export const ERROR_MESSAGES = {
   INVALID_NUMBER: `Invalid input. Please enter a number between ${GAME_SETTINGS.MIN_NUMBER} and ${GAME_SETTINGS.MAX_NUMBER}.`,
-  NOT_A_NUMBER: "Only numbers are accepted. Please try again.",
-  NOT_AN_INTEGER: "Please enter an integer value.",
-  OUT_OF_RANGE_LOW: `Please enter a number greater than or equal to ${GAME_SETTINGS.MIN_NUMBER}.`,
-  OUT_OF_RANGE_HIGH: `Please enter a number less than or equal to ${GAME_SETTINGS.MAX_NUMBER}.`,
-  NOT_EMPTY_SPACE: "empty space is not accepted",
+  NOT_A_NUMBER: "Only numbers are accepted. Please try again.\n",
+  NOT_AN_INTEGER: "Please enter an integer value.\n",
+  OUT_OF_RANGE_LOW: `Please enter a number greater than or equal to ${GAME_SETTINGS.MIN_NUMBER}.\n`,
+  OUT_OF_RANGE_HIGH: `Please enter a number less than or equal to ${GAME_SETTINGS.MAX_NUMBER}.\n`,
+  NOT_EMPTY_SPACE: "empty space is not accepted.\n",
   GAME_INITIALIZATION:
-    "Something went wrong!. Please refresh the page and try again.",
+    "Something went wrong!. Please refresh the page and try again.\n",
 };
 
 // Feedback Messages
 export const FEEDBACK_MESSAGES = {
-  LOW_GUESS: "Your guess is too low.",
-  LOW_GUESS_CLOSE: "You're close! Your guess is low.",
-  HIGH_GUESS: "Your guess is too high.",
-  HIGH_GUESS_CLOSE: "You're close! Your guess is high.",
-  CORRECT_GUESS: "Congratulations! You guessed it right!",
-  MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time! The correct number was: `,
+  LOW_GUESS: "Your guess is too low.\n",
+  LOW_GUESS_CLOSE: "You're close! Your guess is low.\n",
+  HIGH_GUESS: "Your guess is too high.\n",
+  HIGH_GUESS_CLOSE: "You're close! Your guess is high.\n",
+  CORRECT_GUESS: "Congratulations! You guessed it right!\n",
+  MAX_ATTEMPTS_REACHED: `You've reached the maximum number of ${GAME_SETTINGS.MAX_ATTEMPTS} attempts. Better luck next time! The correct number was:`,
 };
 
 // Game Flow Messages
@@ -67,7 +67,7 @@ export const SCORE_MESSAGES = {
 
 // Score Ranges
 export const SCORE_DETAILS = [
-  { MAX_ATTEMPTS: 1, SCORE: 60, MESSAGE: SCORE_MESSAGES.INCREDIBLE },
+  { MAX_ATTEMPTS: 3, SCORE: 60, MESSAGE: SCORE_MESSAGES.INCREDIBLE },
   { MAX_ATTEMPTS: 5, SCORE: 40, MESSAGE: SCORE_MESSAGES.GREAT_JOB },
   { MAX_ATTEMPTS: 8, SCORE: 20, MESSAGE: SCORE_MESSAGES.GOOD_JOB },
   {
