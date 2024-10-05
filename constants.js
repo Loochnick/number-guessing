@@ -48,6 +48,7 @@ export const GAME_FLOW_MESSAGES = {
     🔍 Pay close attention to the hints after each guess!
     Can you find the correct number? Good luck, and have fun!
   `,
+  CLEAR_HISTORY: "Would you like to delete your game history? Click 'OK' to delete or 'Cancel' to keep it.",
   THANKS_FOR_PLAYING: "Thanks for playing!",
   GAME_CANCELLED: "The game has been cancelled",
 };

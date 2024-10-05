@@ -107,7 +107,7 @@ const playGameRound = (state) => {
 
 const getCurrentScoreDetail = (state) => {
   const { isCancelled, hasWon } = state.currentRound;
-  
+
   // Handle cancelled game
   if (isCancelled) {
     return {
@@ -151,10 +151,22 @@ const updateGameStateAfterRound = (state, score) => {
 };
 
 const game = (state) => {
+  let shouldClearHistory = false;
+
+  //Ask the player if they want to clear history(but not at first)
+  if (state.currentRound.roundNumber !== 1)
+    shouldClearHistory = confirm(GAME_FLOW_MESSAGES.CLEAR_HISTORY);
+
+  // clear the history if the player click ok
+  if (shouldClearHistory) {
+    localStorage.clear();
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  }
 
   // Notify the player which round they are currently playing
   console.log(`Round ${state.currentRound.roundNumber}`);
-  
+
+  // Generate an random guess
   state.currentRound.correctNumber = generateRandomNumber(
     GAME_SETTINGS.MIN_NUMBER,
     GAME_SETTINGS.MAX_NUMBER
@@ -185,7 +197,9 @@ const game = (state) => {
   //Asking the player if they want to play again
   const shouldPlayAgain = confirm(PROMPTS_MESSAGES.TRY_AGAIN);
 
-  shouldPlayAgain ? game(state) : console.log(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
+  shouldPlayAgain
+    ? game(state)
+    : console.log(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
 const startGameWithDelay = async (state) => {
@@ -193,12 +207,15 @@ const startGameWithDelay = async (state) => {
     await delay(GAME_SETTINGS.INITIAL_DELAY);
 
     //Welcome message(only for the first time)
-    state.currentRound.roundNumber === 1 && console.log(GAME_FLOW_MESSAGES.WELCOME);
+    state.currentRound.roundNumber === 1 &&
+      console.log(GAME_FLOW_MESSAGES.WELCOME);
 
     //play
     game(state);
   } catch (error) {
-    console.log(error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION);
+    console.log(
+      error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION
+    );
   }
 };
 
