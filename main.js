@@ -86,12 +86,15 @@ const playGameRound = (state) => {
     // Increment attempts
     state.currentRound.attempts++;
 
+    //log how many attempts used:
+    console.log(`attempts: ${state.currentRound.attempts}`);
+
     // alert the player of the result of the guess
     state.currentRound.hasWon
       ? console.log(
           `${resultMessage} You got the correct number in ${state.currentRound.attempts} attempts! the correct number was: ${state.currentRound.correctNumber} \n`
         )
-      : console.log(resultMessage);
+      : console.log(`${resultMessage} you guessed: ${playerGuess}`);
   }
 
   // Check if the player ran out of attempts
