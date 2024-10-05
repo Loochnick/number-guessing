@@ -202,10 +202,11 @@ const game = (state) => {
     : console.log(GAME_FLOW_MESSAGES.THANKS_FOR_PLAYING);
 };
 
-const startGameWithDelay = async (state) => {
-  try {
-    await delay(GAME_SETTINGS.INITIAL_DELAY);
+document.addEventListener("DOMContentLoaded", () => {
+  //Get the initilized State
+  const state = loadStateFromLocalStorage();
 
+  try {
     //Welcome message(only for the first time)
     state.currentRound.roundNumber === 1 &&
       console.log(GAME_FLOW_MESSAGES.WELCOME);
@@ -217,11 +218,4 @@ const startGameWithDelay = async (state) => {
       error.message ? error.message : ERROR_MESSAGES.GAME_INITIALIZATION
     );
   }
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-  //Get the initilized State
-  const state = loadStateFromLocalStorage();
-
-  startGameWithDelay(state);
 });
